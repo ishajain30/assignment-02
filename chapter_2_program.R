@@ -1,12 +1,18 @@
 # Predictive Model for Los Angeles Dodgers Promotion and Attendance (R)
 
+##Below lines are calling the needed libraries. 
+##car stands for Companion to Applied Regression. This package isn’t used to perform Applied Regression techniques, it compliments these techniques.
+##lattice:Its goal is produce powerful multipanel plots and it is flexible enough to handle most nonstandard requirements 
 library(car)  # special functions for linear regression
 library(lattice)  # graphics package
 
+## Below lines are creating the dataset for all dodger home games and checking structure of the data frame by printing it using print function
 # read in data and create a data frame called dodgers
 dodgers <- read.csv("dodgers.csv")
 print(str(dodgers))  # check the structure of the data frame
 
+##These lines below creating a new variable by recoding day_of_week variable. 
+##Factors represent a very efficient way to store character values.
 # define an ordered day-of-week variable 
 # for plots and data summaries
 dodgers$ordered_day_of_week <- with(data=dodgers,
@@ -19,14 +25,18 @@ dodgers$ordered_day_of_week <- with(data=dodgers,
 dodgers$ordered_day_of_week <- factor(dodgers$ordered_day_of_week, levels=1:7,
 labels=c("Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"))
 
+##These lines are used to build chart with plot command using dodgers data. We are labeling the x axis as "Day of Week" and y-axis as "Attendence" with the xlab and ylab commands;
 # exploratory data analysis with standard graphics: attendance by day of week
 with(data=dodgers,plot(ordered_day_of_week, attend/1000, 
 xlab = "Day of Week", ylab = "Attendance (thousands)", 
 col = "violet", las = 1))
 
+##Here we are creating a table to check bobbleheads are used mostly on which day of the week
 # when do the Dodgers use bobblehead promotions
 with(dodgers, table(bobblehead,ordered_day_of_week)) # bobbleheads on Tuesday
 
+##These lines here are used to establish a check for each month that the dodgers play. 
+##A number and label is assigned to each month.
 # define an ordered month variable 
 # for plots and data summaries
 dodgers$ordered_month <- with(data=dodgers,
