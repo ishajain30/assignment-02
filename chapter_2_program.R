@@ -49,10 +49,13 @@ dodgers$ordered_month <- with(data=dodgers,
 dodgers$ordered_month <- factor(dodgers$ordered_month, levels=4:10,
 labels = c("April", "May", "June", "July", "Aug", "Sept", "Oct"))
 
+##These lines create a plot with the dodgers game data with month and attendence. 
 # exploratory data analysis with standard R graphics: attendance by month 
 with(data=dodgers,plot(ordered_month,attend/1000, xlab = "Month", 
 ylab = "Attendance (thousands)", col = "light blue", las = 1))
 
+##Below piece of code is trying to create a scatterplot with the xyplot command with attendence and temperature on the same axis while skies and day_night on the other. 
+##The fill function is used to fill in missing values.
 # exploratory data analysis displaying many variables
 # looking at attendance and conditioning on day/night
 # the skies and whether or not fireworks are displayed
@@ -73,7 +76,9 @@ xyplot(attend/1000 ~ temp | skies + day_night,
         text = list(rev(group.labels),col = rev(group.colors)),
         points = list(pch = rev(group.symbols), col = rev(group.colors),
         fill = rev(group.fill))))  
-                
+
+##This piece of code is preparing a graphical summary that compares the relationship between attendence and whether the game is at day or night.
+##The panel command is establishing the data as cross-sectional time series data.
 # attendance by opponent and day/night game
 group.labels <- c("Day","Night")
 group.symbols <- c(1,20)
