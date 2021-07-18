@@ -187,6 +187,8 @@ digits = 0),"\n",sep="")
 plot(my.model.fit)
 
 ##below part is used for additional model diagnostics but this time from the car package
+##residualPlots: plots the residuals versus each term in a mean function and versus fitted values
+##marginalModelPlots: These plots allow for the comparison of the fitted model with a nonparametric or semiparametric model fit. The user may precisely specify how the alternative fit is computed. 
 # additional model diagnostics drawn from the car package
 library(car)
 residualPlots(my.model.fit)
