@@ -94,7 +94,10 @@ bwplot(opponent ~ attend/1000, data = dodgers, groups = day_night,
     text = list(group.labels,col = "black"),
     points = list(pch = group.symbols, cex = group.symbols.size, 
     col = "darkblue")))
-     
+
+##Multiple functions have been used to serve the purpose to employe training and test regimen for model validation.
+##The set. seed() function sets the starting number used to generate a sequence of random numbers – it ensures that you get the same result if you start with that same seed each time you run the same process.
+##The str function below displayed the internal structure of the training/test dataset.
 # employ training-and-test regimen for model validation
 set.seed(1234) # set seed for repeatability of training-and-test split
 training_test <- c(rep(1,length=trunc((2/3)*nrow(dodgers))),
@@ -107,29 +110,40 @@ print(str(dodgers.train)) # check training data frame
 dodgers.test <- subset(dodgers, training_test == "TEST")
 print(str(dodgers.test)) # check test data frame
 
+##This part specifies a simple model that includes month, day of week and bobblehead entered last as predictor variables. 
 # specify a simple model with bobblehead entered last
 my.model <- {attend ~ ordered_month + ordered_day_of_week + bobblehead}
 
+##lm function is used to fit linear models. It can be used to carry out regression, single stratum analysis of variance and analysis of covariance.
 # fit the model to the training set
 train.model.fit <- lm(my.model, data = dodgers.train)
+
+##summary is a generic function used to produce result summaries of the results of model fitting function.
 # summary of model fit to the training set
 print(summary(train.model.fit))
+
+##Below line shows the predictions coming from the training regiment.
 # training set predictions from the model fit to the training set
 dodgers.train$predict_attend <- predict(train.model.fit) 
 
+##Below we see that training set is used to test the predictions from the test set
 # test set predictions from the model fit to the training set
 dodgers.test$predict_attend <- predict(train.model.fit, 
   newdata = dodgers.test)
 
+##Below lines are used when predicting data out-of-sample. 
+##cat is used for producing output in user-defined functions. It converts its arguments to character vectors, concatenates them to a single character vector, appends the given sep =  string(s) to each element and then outputs them.
 # compute the proportion of response variance
 # accounted for when predicting out-of-sample
 cat("\n","Proportion of Test Set Variance Accounted for: ",
 round((with(dodgers.test,cor(attend,predict_attend)^2)),
   digits=3),"\n",sep="")
 
+##The rbind function is used to combine several vectors, matrices and/or data frames by rows. 
 # merge the training and test sets for plotting
 dodgers.plotting.frame <- rbind(dodgers.train,dodgers.test)
 
+## Below part establishes a predictive model that best encapsulates data and business question to make it viewable and easily understandable.
 # generate predictive modeling visual for management
 group.labels <- c("No Bobbleheads","Bobbleheads")
 group.symbols <- c(21,24)
@@ -161,13 +175,18 @@ print(summary(my.model.fit))
 # type I anova computes sums of squares for sequential tests
 print(anova(my.model.fit))  
 
+
+##This converts the argument into character strings
+## It uses the my.model command with round function to round off values from the previous coefficients.
 cat("\n","Estimated Effect of Bobblehead Promotion on Attendance: ",
 round(my.model.fit$coefficients[length(my.model.fit$coefficients)],
 digits = 0),"\n",sep="")
 
+##plot function is used to provide diagnostic plots
 # standard graphics provide diagnostic plots
 plot(my.model.fit)
 
+##below part is used for additional model diagnostics but this time from the car package
 # additional model diagnostics drawn from the car package
 library(car)
 residualPlots(my.model.fit)
