@@ -46,8 +46,9 @@ dodgers$ordered_month <- with(data=dodgers,
   ifelse ((month == "JUL"),7,
   ifelse ((month == "AUG"),8,
   ifelse ((month == "SEP"),9,10)))))))
-dodgers$ordered_month <- factor(dodgers$ordered_month, levels=4:10,
-labels = c("April", "May", "June", "July", "Aug", "Sept", "Oct"))
+dodgers$ordered_month <- factor(dodgers$ordered_month, levels=4:10, ##The function factor is used to encode a vector as a factor 
+                                ##levels: is an optional vector of the unique values that x might have taken
+labels = c("April", "May", "June", "July", "Aug", "Sept", "Oct")) ##labels are assigned to the levels
 
 ##These lines create a plot with the dodgers game data with month and attendence. col option sets the color to light blue.
 # exploratory data analysis with standard R graphics: attendance by month 
@@ -69,7 +70,7 @@ xyplot(attend/1000 ~ temp | skies + day_night,
     data = dodgers, groups = fireworks, pch = group.symbols, ##pch specifies which plotting symbol will be shown in the plot.
  ##Lune 71: This controls the physical aspect ratio of the panels, which is usually the same for all the panels.
   ##It can be specified as a ratio (vertical size/horizontal size) or as a character string. In the latter case, legitimate values are "fill" (the default) which tries to make the panels as big as possible to fill the available space; fill: serves the purpose of bg for certain values of pch
-    aspect = 1, cex = 1.5, col = group.colors, fill = group.fill, ## 
+    aspect = 1, cex = 1.5, col = group.colors, fill = group.fill, 
     layout = c(2, 2), type = c("p","g"),
     strip=strip.custom(strip.levels=TRUE,strip.names=FALSE, style=1),
     xlab = "Temperature (Degrees Fahrenheit)", ##giving labels for x axis
@@ -93,7 +94,7 @@ bwplot(opponent ~ attend/1000, data = dodgers, groups = day_night,
         panel.stripplot(x, y, groups = groups, subscripts = subscripts, 
         cex = group.symbols.size, pch = group.symbols, col = "darkblue")
        },
-    key = list(space = "top", 
+    key = list(space = "top", ##key is a list that is defining legend for the plot
     text = list(group.labels,col = "black"),
     points = list(pch = group.symbols, cex = group.symbols.size, 
     col = "darkblue")))
