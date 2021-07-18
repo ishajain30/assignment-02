@@ -25,7 +25,7 @@ dodgers$ordered_day_of_week <- with(data=dodgers,
 dodgers$ordered_day_of_week <- factor(dodgers$ordered_day_of_week, levels=1:7,
 labels=c("Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"))
 
-##These lines are used to build chart with plot command using dodgers data. We are labeling the x axis as "Day of Week" and y-axis as "Attendence" with the xlab and ylab commands;
+##These lines are used to build chart with plot command using dodgers data. We are labeling the x axis as "Day of Week" and y-axis as "Attendence" with the xlab and ylab commands; It will be in violet color as set by col option.
 # exploratory data analysis with standard graphics: attendance by day of week
 with(data=dodgers,plot(ordered_day_of_week, attend/1000, 
 xlab = "Day of Week", ylab = "Attendance (thousands)", 
@@ -49,7 +49,7 @@ dodgers$ordered_month <- with(data=dodgers,
 dodgers$ordered_month <- factor(dodgers$ordered_month, levels=4:10,
 labels = c("April", "May", "June", "July", "Aug", "Sept", "Oct"))
 
-##These lines create a plot with the dodgers game data with month and attendence. 
+##These lines create a plot with the dodgers game data with month and attendence. col option sets the color to light blue.
 # exploratory data analysis with standard R graphics: attendance by month 
 with(data=dodgers,plot(ordered_month,attend/1000, xlab = "Month", 
 ylab = "Attendance (thousands)", col = "light blue", las = 1))
@@ -66,12 +66,15 @@ group.symbols <- c(21,24)
 group.colors <- c("black","black") 
 group.fill <- c("black","red")
 xyplot(attend/1000 ~ temp | skies + day_night, 
-    data = dodgers, groups = fireworks, pch = group.symbols, 
-    aspect = 1, cex = 1.5, col = group.colors, fill = group.fill,
+    data = dodgers, groups = fireworks, pch = group.symbols, ##pch specifies which plotting symbol will be shown in the plot.
+ ##Lune 71: This controls the physical aspect ratio of the panels, which is usually the same for all the panels.
+  ##It can be specified as a ratio (vertical size/horizontal size) or as a character string. In the latter case, legitimate values are "fill" (the default) which tries to make the panels as big as possible to fill the available space; fill: serves the purpose of bg for certain values of pch
+    aspect = 1, cex = 1.5, col = group.colors, fill = group.fill, ## 
     layout = c(2, 2), type = c("p","g"),
     strip=strip.custom(strip.levels=TRUE,strip.names=FALSE, style=1),
-    xlab = "Temperature (Degrees Fahrenheit)", 
-    ylab = "Attendance (thousands)",
+    xlab = "Temperature (Degrees Fahrenheit)", ##giving labels for x axis
+    ylab = "Attendance (thousands)", ##giving labels for y axis
+       ##key is a list that is defining legend for the plot
     key = list(space = "top", 
         text = list(rev(group.labels),col = rev(group.colors)),
         points = list(pch = rev(group.symbols), col = rev(group.colors),
@@ -85,7 +88,7 @@ group.symbols <- c(1,20)
 group.symbols.size <- c(2,2.75)
 bwplot(opponent ~ attend/1000, data = dodgers, groups = day_night, 
     xlab = "Attendance (thousands)",
-    panel = function(x, y, groups, subscripts, ...) 
+    panel = function(x, y, groups, subscripts, ...) ##The actual plotting is done by the function specified by the panel argument. 
        {panel.grid(h = (length(levels(dodgers$opponent)) - 1), v = -1)
         panel.stripplot(x, y, groups = groups, subscripts = subscripts, 
         cex = group.symbols.size, pch = group.symbols, col = "darkblue")
